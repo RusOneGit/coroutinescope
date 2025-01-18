@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "113497421289",
+    "project_id": "nmedia-russone",
+    "storage_bucket": "nmedia-russone.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:113497421289:android:43bcf888382e5138530778",
+        "android_client_info": {
+          "package_name": "ru.netology.nmedia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqWB6eVREMcVYpiYbrGexpEKAVCnYhwwA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

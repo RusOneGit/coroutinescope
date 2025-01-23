@@ -1,6 +1,13 @@
 package ru.netology.nmedia.repository
 
 import androidx.lifecycle.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import okio.IOException
 import ru.netology.nmedia.api.*
 import ru.netology.nmedia.dao.PostDao
@@ -11,9 +18,29 @@ import ru.netology.nmedia.entity.toEntity
 import ru.netology.nmedia.error.ApiError
 import ru.netology.nmedia.error.NetworkError
 import ru.netology.nmedia.error.UnknownError
+import kotlin.time.Duration.Companion.seconds
 
 class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
     override val data = dao.getAll().map(List<PostEntity>::toDto)
+
+    override fun getNewerCount(newerId: Long): Flow<Int> = flow {
+        while (true) {
+
+            try {
+                delay(10.seconds)
+                val response = PostsApi.service.getNewer(newerId)
+
+                val body = response.body() ?: throw ApiError(response.code(), response.message())
+                dao.insert(body.toEntity())
+                emit(body.size)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                // do nothing
+            }
+        }
+    }
+        .flowOn(Dispatchers.Default)
 
     override suspend fun getAll() {
         try {
@@ -47,6 +74,7 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
         }
     }
 
+
     override suspend fun removeById(id: Long) {
 
         try {
@@ -67,7 +95,7 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
     override suspend fun likeById(id: Long) {
 
         try {
-              dao.likeById(id)
+            dao.likeById(id)
             val response = PostsApi.service.likeById(id)
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())

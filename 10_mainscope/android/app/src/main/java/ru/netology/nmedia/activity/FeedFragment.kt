@@ -70,10 +70,30 @@ class FeedFragment : Fragment() {
         }
 
         viewModel.newerCount.observe(viewLifecycleOwner){
+            if( it > 0){
+                binding.newPostsBanner.visibility = View.VISIBLE
+
+            }
+            else{
+                binding.newPostsBanner.visibility = View.GONE
+
+            }
             Log.d("FeedFragment", "newerCount $it")
             print(it)
         }
 
+
+        binding.newPostsBanner.setOnClickListener{
+            binding.list.smoothScrollToPosition(0)
+
+
+            viewModel.loadPosts()
+            viewModel.refreshPosts()
+
+
+
+            binding.newPostsBanner.visibility = View.GONE
+        }
         binding.swiperefresh.setOnRefreshListener {
             viewModel.refreshPosts()
         }

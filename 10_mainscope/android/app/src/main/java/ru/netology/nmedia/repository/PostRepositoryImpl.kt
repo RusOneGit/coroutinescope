@@ -50,7 +50,12 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
             }
 
             val body = response.body() ?: throw ApiError(response.code(), response.message())
-            dao.insert(body.toEntity())
+            val updatedPosts = body.toEntity().map { postEntity ->
+                postEntity.copy(view = true)
+            }
+
+            dao.insert(updatedPosts)
+
         } catch (e: IOException) {
             throw NetworkError
         } catch (e: Exception) {

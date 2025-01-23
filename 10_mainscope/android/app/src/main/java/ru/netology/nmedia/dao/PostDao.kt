@@ -9,7 +9,7 @@ import ru.netology.nmedia.entity.PostEntity
 
 @Dao
 interface PostDao {
-    @Query("SELECT * FROM PostEntity WHERE `view` = 0 ORDER BY id DESC")
+    @Query("SELECT * FROM PostEntity WHERE `view` = 1 ORDER BY id DESC")
     fun getAll(): Flow<List<PostEntity>>
 
     @Query("SELECT COUNT(*) == 0 FROM PostEntity")
@@ -31,4 +31,7 @@ interface PostDao {
         WHERE id = :id
         """)
     suspend fun likeById(id: Long)
+
+    @Query("UPDATE PostEntity SET `view` = :newViewValue")
+    suspend fun updateViewForAll(newViewValue: Int)
 }

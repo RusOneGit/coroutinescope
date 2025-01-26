@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import ru.netology.nmedia.R
 import ru.netology.nmedia.adapter.OnInteractionListener
 import ru.netology.nmedia.adapter.PostsAdapter
+import ru.netology.nmedia.api.PostsApi
 import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.viewmodel.PostViewModel
@@ -84,18 +85,13 @@ class FeedFragment : Fragment() {
 
 
         binding.newPostsBanner.setOnClickListener{
-            binding.list.smoothScrollToPosition(0)
-
-
             viewModel.loadPosts()
-            viewModel.refreshPosts()
-
-
-
+            binding.list.smoothScrollToPosition(0)
             binding.newPostsBanner.visibility = View.GONE
+
         }
         binding.swiperefresh.setOnRefreshListener {
-            viewModel.refreshPosts()
+            viewModel.loadPosts()
         }
 
         binding.fab.setOnClickListener {

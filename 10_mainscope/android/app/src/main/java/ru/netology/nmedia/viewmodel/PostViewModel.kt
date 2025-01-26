@@ -47,9 +47,6 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         loadPosts()
     }
 
-    fun viewOn(){
-
-    }
 
     fun loadPosts() = viewModelScope.launch {
         try {

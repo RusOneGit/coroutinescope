@@ -63,6 +63,10 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
         }
     }
 
+    override suspend fun viewOn() {
+        dao.updateViewForAll(1)
+    }
+
     override suspend fun save(post: Post) {
         try {
             val response = PostsApi.service.save(post)

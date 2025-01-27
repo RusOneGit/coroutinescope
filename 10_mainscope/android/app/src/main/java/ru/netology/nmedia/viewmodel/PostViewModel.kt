@@ -58,6 +58,11 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+      fun viewOn() = viewModelScope.launch {
+       repository.viewOn()
+   }
+
+
     fun save() {
         edited.value?.let {
             _postCreated.value = Unit

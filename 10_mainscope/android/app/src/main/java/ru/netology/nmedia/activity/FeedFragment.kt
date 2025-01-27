@@ -85,10 +85,11 @@ class FeedFragment : Fragment() {
 
 
         binding.newPostsBanner.setOnClickListener{
-            viewModel.loadPosts()
-            binding.list.smoothScrollToPosition(0)
-            binding.newPostsBanner.visibility = View.GONE
-
+            viewModel.viewOn()
+            binding.list.post {
+                binding.list.smoothScrollToPosition(0)
+                binding.newPostsBanner.visibility = View.GONE
+            }
         }
         binding.swiperefresh.setOnRefreshListener {
             viewModel.loadPosts()

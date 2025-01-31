@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toFile
 import androidx.core.view.MenuProvider
@@ -108,6 +107,10 @@ class NewPostFragment : Fragment() {
                 .cameraOnly()
                 .createIntent(photoResultContract::launch)
 
+        }
+
+        binding.clear.setOnClickListener{
+            viewModel.savePhoto(null)
         }
 
         viewModel.postCreated.observe(viewLifecycleOwner) {

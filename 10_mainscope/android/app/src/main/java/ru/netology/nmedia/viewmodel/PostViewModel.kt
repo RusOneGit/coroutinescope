@@ -44,8 +44,8 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val postCreated: LiveData<Unit>
         get() = _postCreated
 
-    private val _photo = MutableLiveData<PhotoModel>(null)
-    val photo:LiveData<PhotoModel?> = _photo
+    private val _photo = MutableLiveData<PhotoModel?>(null)
+    val photo: LiveData<PhotoModel?> = _photo
 
     init {
         loadPosts()
@@ -62,17 +62,21 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-      fun viewOn() = viewModelScope.launch {
-       repository.viewOn()
-   }
+    fun viewOn() = viewModelScope.launch {
+        repository.viewOn()
+    }
 
 
     fun save() {
-        edited.value?.let {
+        edited.value?.let { post ->
             _postCreated.value = Unit
             viewModelScope.launch {
                 try {
-                    repository.save(it)
+
+                    _photo.value?.let {
+                        repository.saveWithAttach(post, it)
+                    } ?: repository.save(post)
+
                     _dataState.value = FeedModelState()
                 } catch (e: Exception) {
                     _dataState.value = FeedModelState(error = true)
@@ -95,12 +99,11 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun likeById(id: Long) {
-        viewModelScope.launch{
+        viewModelScope.launch {
             try {
                 repository.likeById(id)
-            _dataState.value = FeedModelState()
-            }
-            catch (e: Exception){
+                _dataState.value = FeedModelState()
+            } catch (e: Exception) {
                 _dataState.value = FeedModelState(error = true)
             }
         }
@@ -117,7 +120,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun savePhoto(photoModel: PhotoModel) {
+    fun savePhoto(photoModel: PhotoModel?) {
         _photo.value = photoModel
 
     }

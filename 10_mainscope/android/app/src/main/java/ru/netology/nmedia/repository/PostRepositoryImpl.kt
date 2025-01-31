@@ -8,16 +8,22 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okio.IOException
 import ru.netology.nmedia.api.*
 import ru.netology.nmedia.dao.PostDao
+import ru.netology.nmedia.dto.Attachment
+import ru.netology.nmedia.dto.Media
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.entity.PostEntity
 import ru.netology.nmedia.entity.toDto
 import ru.netology.nmedia.entity.toEntity
+import ru.netology.nmedia.enumiration.AttachmentType
 import ru.netology.nmedia.error.ApiError
 import ru.netology.nmedia.error.NetworkError
 import ru.netology.nmedia.error.UnknownError
+import ru.netology.nmedia.model.PhotoModel
 import kotlin.time.Duration.Companion.seconds
 
 class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
@@ -83,6 +89,22 @@ class PostRepositoryImpl(private val dao: PostDao) : PostRepository {
         }
     }
 
+    override suspend fun saveWithAttach(post: Post, photoModel: PhotoModel) {
+       val media = upload(photoModel)
+
+       val postWithAttachment = post.copy(attachment = Attachment(media.id,AttachmentType.IMAGE))
+
+        save(postWithAttachment)
+    }
+
+    private suspend fun upload(photoModel: PhotoModel): Media =
+        PostsApi.service.upload(
+            MultipartBody.Part.createFormData(
+                "file",
+                photoModel.file.name,
+                photoModel.file.asRequestBody()
+            )
+        )
 
     override suspend fun removeById(id: Long) {
 

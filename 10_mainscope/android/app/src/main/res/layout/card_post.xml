@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -87,7 +90,8 @@
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@id/footer"
             app:layout_constraintTop_toBottomOf="@id/content"
-            tools:src="@tools:sample/avatars[75]" />
+            android:src="@drawable/baseline_add_photo_alternate_24"
+             />
 
 
         <androidx.constraintlayout.widget.Barrier
@@ -121,4 +125,6 @@
             app:layout_constraintStart_toEndOf="@+id/like"
             app:layout_constraintTop_toBottomOf="@id/footer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 </com.google.android.material.card.MaterialCardView>

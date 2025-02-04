@@ -99,6 +99,7 @@ class FeedFragment : Fragment() {
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
 
+
         return binding.root
     }
 }

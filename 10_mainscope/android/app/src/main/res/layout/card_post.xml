@@ -86,13 +86,14 @@
         <ImageView
             android:id="@+id/image_post"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:visibility="visible"
+            android:scaleType="fitCenter"
             app:layout_constraintBottom_toTopOf="@id/footer"
             app:layout_constraintTop_toBottomOf="@id/content"
-            android:src="@drawable/baseline_add_photo_alternate_24"
-             />
-
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:src="@tools:sample/avatars[75]" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/footer"

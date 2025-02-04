@@ -1,15 +1,19 @@
 package ru.netology.nmedia.adapter
 
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.BuildConfig
 import ru.netology.nmedia.R
+import ru.netology.nmedia.activity.FeedFragment
 import ru.netology.nmedia.databinding.CardPostBinding
+import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.view.load
 import ru.netology.nmedia.view.loadCircleCrop
@@ -48,12 +52,9 @@ class PostViewHolder(
             avatar.loadCircleCrop("${BuildConfig.BASE_URL}/avatars/${post.authorAvatar}")
             like.isChecked = post.likedByMe
             like.text = "${post.likes}"
-            post.attachment?.let {
-                imagePost.load("${BuildConfig.BASE_URL}/media/${it.url}")
-            } ?: run {
-                imagePost.visibility = View.GONE // Или установите на видимость по умолчанию
-            }
-
+            imagePost.load("${BuildConfig.BASE_URL}/media/${post.attachment?.url}")
+            val imageUrl = "${BuildConfig.BASE_URL}/media/${post.attachment?.url}"
+            Log.d("PostViewHolder", "Image URL: $imageUrl")
             menu.setOnClickListener {
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.options_post)
@@ -80,6 +81,26 @@ class PostViewHolder(
 
             share.setOnClickListener {
                 onInteractionListener.onShare(post)
+            }
+
+            binding.imagePost.setOnClickListener {
+
+
+                val imageUrl = "${BuildConfig.BASE_URL}/media/${post.attachment?.url}"
+
+
+                val likesCount = post.likes
+
+
+                val bundle = Bundle().apply {
+                    putString("imageUrl", imageUrl)
+                    putInt("likesCount", likesCount)
+                }
+
+
+                findNavController(binding.root).navigate(R.id.action_feedFragment_to_imageFragment, bundle)
+
+
             }
         }
     }

@@ -90,7 +90,6 @@ class PostViewHolder(
 
 
 
-
                 val bundle = Bundle().apply {
                     putString("imageUrl", imageUrl)
                 }

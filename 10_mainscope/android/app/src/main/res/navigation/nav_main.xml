@@ -35,11 +35,5 @@
         <argument
             android:name="imageUrl"
             app:argType="string" />
-        <argument
-            android:name="likesCount"
-            app:argType="integer" />
-        <argument
-            android:name="likedByMe"
-            app:argType="boolean" />
     </fragment>
 </navigation>

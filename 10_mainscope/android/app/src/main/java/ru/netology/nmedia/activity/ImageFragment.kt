@@ -11,8 +11,6 @@ import ru.netology.nmedia.databinding.ImagePostFragmentBinding
 
 class ImageFragment : Fragment() {
     private var imageUrl: String? = null
-    private var likesCount: Int = 0
-    private var sharesCount: Int = 0
     private var _binding: ImagePostFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -37,6 +35,7 @@ class ImageFragment : Fragment() {
         Glide.with(this)
             .load(imageUrl)
             .into(binding.imageFragment)
+
 
     }
 

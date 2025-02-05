@@ -38,12 +38,6 @@ class ImageFragment : Fragment() {
             .load(imageUrl)
             .into(binding.imageFragment)
 
-
-        binding.like.text = likesCount.toString()
-
-        binding.share.setOnClickListener{
-
-        }
     }
 
     override fun onDestroyView() {

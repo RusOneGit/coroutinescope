@@ -89,12 +89,10 @@ class PostViewHolder(
                 val imageUrl = "${BuildConfig.BASE_URL}/media/${post.attachment?.url}"
 
 
-                val likesCount = post.likes
 
 
                 val bundle = Bundle().apply {
                     putString("imageUrl", imageUrl)
-                    putInt("likesCount", likesCount)
                 }
 
 

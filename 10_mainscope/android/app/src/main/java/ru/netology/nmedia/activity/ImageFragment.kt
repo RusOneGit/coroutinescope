@@ -20,8 +20,6 @@ class ImageFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             imageUrl = it.getString("imageUrl")
-            likesCount = it.getInt("likesCount")
-            sharesCount = it.getInt("sharesCount")
         }
     }
 
